@@ -45,10 +45,13 @@
     </div>
 
     <img src="{{ product.poster.url }}" class="w-100 bg-black" />
+
+    {% if request.user.is_staff %}
     <div class="d-flex justify-content-end gap-2">
         <a href="{% url 'products:product_update_view' product.id %}" class="btn btn-primary">update</a>
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">delete</button>
     </div>
+    {% endif %}
 
             <p>{{ product.description }}</p>
         </div>
@@ -58,13 +61,14 @@
 
 <hr />
 
-<h2>Comments ({{reviews.count}})</h2>
+<!-- <h2>Comments ({{reviews.count}})</h2> -->
+<h2>Reviews ({{game.review_set.count}})</h2>
 
 <div class="d-flex flex-column gap-3">
     {% for review in reviews %}
         <div class="d-flex flex-column p-3 shadow">
             <div class="d-flex justify-content-between align-items-center">
-                <h4>{{review.name}}</h4>
+              <h4>{{review.user.first_name}} {{review.user.last_name}}</h4>
                 <div class="d-flex align-items-center">
                     <span class="material-symbols-outlined">star</span>
                     <h5 class="m-0 p-0">{{review.rating}}</h5>
@@ -77,7 +81,7 @@
     {% endfor %}
 </div>
 
-
+{% if request.user.is_authenticated %}
 <h2 class="mt-5">What do you think about this product?</h2>
 <form class="d-flex flex-column gap-2" action="{% url 'products:add_review_view' product.id %}" method="post">
     {% csrf_token %}
@@ -94,6 +98,12 @@
 
     <input type="submit" class="btn btn-dark" value="Submit" />
 </form>
+
+{% else %}
+    <div class="p-3 rounded bg-warning mt-4 d-flex flex-column gap-2">
+        <p>Only registered users can add reviews</p>
+    </div>
+{% endif %}
 
 <!-- Button trigger modal -->
 

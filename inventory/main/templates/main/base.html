@@ -42,14 +42,20 @@
               <a class="nav-link {% if request.path == all_products_url %} active {% endif %}" aria-current="page" href="{{all_products_url}}">All Products</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {% if request.path == add_product_url %} active {% endif %}" href="{{add_product_url}}" >New Product</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link {% if request.path == all_supplier_url %} active {% endif %}" href="{{all_supplier_url}}" >All Supplier</a>
+            </li>
+
+
+            {% if request.user.is_staff %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == add_product_url %} active {% endif %}" href="{{add_product_url}}" >New Product</a>
             </li>
             <li class="nav-item">
               <a class="nav-link {% if request.path == add_supplier_url %} active {% endif %}" href="{{add_supplier_url}}" >New Supplier</a>
             </li>
+            {% endif %}
+
+
             <li class="nav-item">
               <a class="nav-link" href="#" >About</a>
             </li>

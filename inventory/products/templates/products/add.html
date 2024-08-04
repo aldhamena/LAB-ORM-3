@@ -10,7 +10,7 @@
 
     <div class="col-6">
 
-        <form class="d-flex flex-column gap-2" action="{% url 'products:add_product_view' %}" method="POST" enctype="multipart/form-data">
+        <form class="d-flex flex-column gap-2" action="{% url 'products:add_product_view' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="text" placeholder="Title" name="title" class="form-control" required minlength="5" maxlength="512"/>
             <textarea placeholder="Description" name="description" class="form-control" required></textarea>
@@ -23,16 +23,32 @@
                 {% endfor %}
             </select>
 
-            
-            <div>
-                <h5>production date</h5>
-                <input type="date" name="production_date" class="form-control" required/>
+
+            <!-- <select name="esrb" class="form-select" required>
+                <option>Choose Audience Rating</option>
+                {% for value, label in esrb_ratings %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select> -->
+
+            <div class="d-flex gap-2 align-items-center">
+                <h5 class="m-0 p-0">Rating: </h5>
+                <div class="rate">
+                    {% for val, label in RatingChoices %}
+                        <input type="radio" id="{{val}}" name="rating" value="{{val}}" required/>
+                        <label for="{{val}}" title="text">{{label}}</label>
+                    {% endfor %}
+                </div>
             </div>
+
+            
+
+            <input type="date" name="release_date" class="form-control" required/>
 
             <input type="file" name="poster" class="form-control" required accept="image/*"/>
 
 
-            <h5>Categories</h5>
+            <h3>Categories</h3>
             <div class="d-flex align-items-center gap-2">
                 {% for category in categories %}
                     <input type="checkbox" class="form-check-input" name="categories" id="check-{{category.id}}" value="{{category.id}}" />

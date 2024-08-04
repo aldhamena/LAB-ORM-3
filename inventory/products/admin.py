@@ -11,7 +11,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 class ReviewAdmin(admin.ModelAdmin):
 
-    list_display =  ("name", "product", "rating")
+    list_display =  ("user", "product", "rating")
     list_filter = ("product", "rating")
 
 admin.site.register(Product, ProductAdmin)

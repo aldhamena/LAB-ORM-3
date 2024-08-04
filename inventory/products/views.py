@@ -15,6 +15,10 @@ from django.db.models import Q, F, Count, Avg, Sum, Max, Min
 
 def add_product_view(request:HttpRequest):
 
+    if not request.user.is_staff:
+        messages.success(request, "only staff can add products", "alert-warning")
+        return redirect("main:home")
+
     product_form = ProductForm()
     categories = Category.objects.all()
     suppliers = Supplier.objects.all()
@@ -39,7 +43,7 @@ def add_product_view(request:HttpRequest):
         else:
             print("not valid form", product_form.errors)
 
-    return render(request, "products/create.html", {"product_form":product_form,"RatingChoices": reversed(Game.RatingChoices.choices), "categories":categories, "publishers": publishers, "esrb_ratings" : Game.ESRBRating.choices})
+    return render(request, "products/create.html", {"product_form":product_form,"RatingChoices": reversed(Product.RatingChoices.choices), "categories":categories, "suppliers": suppliers})
 
 
 
@@ -55,6 +59,11 @@ def product_detail_view(request:HttpRequest, product_id:int):
 
 
 def product_update_view(request:HttpRequest, product_id:int):
+
+    if not request.user.is_staff:
+        messages.warning(request, "only staff can update products", "alert-warning")
+        return redirect("main:home")
+    
 
     product = Product.objects.get(pk=product_id)
     categories = Category.objects.all()
@@ -82,6 +91,10 @@ def product_update_view(request:HttpRequest, product_id:int):
 
 
 def product_delete_view(request:HttpRequest, product_id:int):
+
+    if not request.user.is_staff:
+        messages.warning(request, "only staff can delete products", "alert-warning")
+        return redirect("main:home")
 
     # product = Product.objects.get(pk=product_id)
     # product.delete()
@@ -130,7 +143,7 @@ def all_products_view(request:HttpRequest, category_name):
 
 
     return render(request, "products/all_products.html", {"products":products_page, "category_name":category_name})
-    # return render(request, "products/all_products.html", {"products":products_page, "category_name":category_name, "esrb_ratings": Game.ESRBRating.choices})
+    # return render(request, "products/all_products.html", {"products":products_page, "category_name":category_name, "esrb_ratings": Product.ESRBRating.choices})
 
 
 
@@ -152,9 +165,22 @@ def search_products_view(request:HttpRequest):
 
 def add_review_view(request:HttpRequest, product_id):
 
+    # if request.method == "POST":
+    #     product_object = Product.objects.get(pk=product_id)
+    #     new_review = Review(product=product_object,name=request.POST["name"],comment=request.POST["comment"],rating=request.POST["rating"])
+    #     new_review.save()
+
+    # return redirect("products:product_detail_view", product_id=product_id)
+
+    if not request.user.is_authenticated:
+        messages.error(request, "Only registered user can add review","alert-danger")
+        return redirect("accounts:sign_in")
+
     if request.method == "POST":
         product_object = Product.objects.get(pk=product_id)
-        new_review = Review(product=product_object,name=request.POST["name"],comment=request.POST["comment"],rating=request.POST["rating"])
+        new_review = Review(product=product_object,user=request.user,comment=request.POST["comment"],rating=request.POST["rating"])
         new_review.save()
+
+        messages.success(request, "Added Review Successfully", "alert-success")
 
     return redirect("products:product_detail_view", product_id=product_id)

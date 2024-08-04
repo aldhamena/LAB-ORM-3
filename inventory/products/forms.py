@@ -11,9 +11,13 @@
 #         }
 
 from django import forms
-from .models import Product
+from products.models import Product
 
+# Create the form class.
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ('rating',)  # Exclude the 'rating' field
+        fields = "__all__"
+        widgets = {
+            'title' : forms.TextInput({"class" : "form-control"})
+        }

@@ -1,6 +1,8 @@
 from django.db import models
 from suppliers.models import Supplier
 
+from django.contrib.auth.models import User
+
 from django.db.models import F
 
 # Create your models here.
@@ -36,14 +38,14 @@ class Product(models.Model):
 
 class Review(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    name = models.CharField(max_length=1024)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.SmallIntegerField()
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self) -> str:
-        return f"{self.name} on {self.product.title}"
+        return f"{self.user.username} on {self.product.title}"
 
 
 # class Payment(models.Model):
