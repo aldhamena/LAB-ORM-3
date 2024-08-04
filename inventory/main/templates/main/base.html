@@ -56,7 +56,41 @@
             <li class="nav-item">
               <a class="nav-link {% if request.path == contact_url %} active {% endif %}" href="{{contact_url}}">Contact</a>
             </li>
+
+
+            <!-- Sign In or Sign Up drop down list -->
+            {% if request.user.is_staff %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == create_game_url %} active {% endif %}" href="{{create_game_url}}" >New Game</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == add_publisher_url %} active {% endif %}" href="{{add_publisher_url}}" >New Publisher</a>
+            </li>
+            {% endif %}
             
+            <li class="nav-item">
+
+                {% if request.user.is_authenticated %}
+                  <div class="d-flex gap-1 align-items-center">
+                  <h6 class="p-0 m-0 text-white">welcome {{ request.user.username }}, </h6>
+                  <a  class="nav-link" href="{% url 'accounts:log_out' %}?next={{request.path}}">Log out</a>
+                </div>
+                {% else %}
+                <div class="dropdown bg-transparent">
+                  <a class="btn nav-link dropdown-toggle p-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Sign up/ Sign in
+                  </a>
+                <ul class="dropdown-menu p-3">
+                  <li><a class="dropdown-item" href="{% url 'accounts:sign_up' %}?next={{request.path}}">Sign up</a></li>
+                  <li><a class="dropdown-item" href="{% url 'accounts:sign_in' %}?next={{request.path}}">Sign in</a></li>
+                </ul>
+              </div>
+                {% endif %}
+
+            
+            </li>
+
+
 
             <form role="search" method="get" action="{% url 'products:search_products_view' %}">
               <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search" value="{{request.GET.search}}" required minlength="1">

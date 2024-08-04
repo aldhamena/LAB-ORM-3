@@ -1,6 +1,8 @@
 from django.db import models
 from suppliers.models import Supplier
 
+from django.db.models import F
+
 # Create your models here.
 
 class Category(models.Model):
@@ -42,3 +44,11 @@ class Review(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} on {self.product.title}"
+
+
+# class Payment(models.Model):
+
+#     price = models.FloatField()
+#     tax = models.FloatField()
+
+#     payments = Payment.objects.all().annotate(total=F("price")+F("tax"))

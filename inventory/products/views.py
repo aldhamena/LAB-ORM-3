@@ -8,6 +8,9 @@ from suppliers.models import Supplier
 from django.core.paginator import Paginator
 from django.contrib import messages
 
+from django.db.models import Q, F, Count, Avg, Sum, Max, Min
+
+
 # add your views here.
 
 def add_product_view(request:HttpRequest):
@@ -45,7 +48,10 @@ def product_detail_view(request:HttpRequest, product_id:int):
     product = Product.objects.get(pk=product_id)
     reviews = Review.objects.filter(product=product)
 
-    return render(request, 'products/product_detail.html', {"product" : product, "reviews":reviews})
+    avg = reviews.aggregate(Avg("rating"))
+    print(avg)
+
+    return render(request, 'products/product_detail.html', {"product" : product, "reviews":reviews, "average_rating":avg["rating__avg"]})
 
 
 def product_update_view(request:HttpRequest, product_id:int):
@@ -109,8 +115,17 @@ def all_products_view(request:HttpRequest, category_name):
     else:
         products = Product.objects.filter(categories__name__in=[category_name]).order_by("-production_date")
 
+    # products = products.filter( Q(title_startswith="C") | Q(title_endswith="T"))
+
+    products = products.annotate(reviews_count=Count("review"))
+
+    # if "esrb" in request.GET:
+    #     products = products.filter(esrb=request.GET["esrb"])
+
+
+
     page_number = request.GET.get("page", 1)
-    paginator = Paginator(products, 3)
+    paginator = Paginator(products, 6)
     products_page = paginator.get_page(page_number)
 
 

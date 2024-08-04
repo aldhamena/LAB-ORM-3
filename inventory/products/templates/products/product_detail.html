@@ -31,6 +31,25 @@
               <a href="{% url 'products:all_products_view' category.name %}"><h6 class="cat p-1 ps-3 pe-3  rounded-pill text-white {{category}}">{{ category }}</h6></a>
               {% endfor %}
           </div>
+
+          <div class="d-flex align-items-center gap-1">
+
+            <h5 class="m-0 p-0">{{product.rating}}</h5>
+            <span class="material-symbols-outlined">star</span>
+            {% if average_rating %}
+            <span>|</span>
+            <h5 class="m-0 p-0">{{average_rating}}</h5>
+            <span class="material-symbols-outlined">reviews</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <img src="{{ product.poster.url }}" class="w-100 bg-black" />
+    <div class="d-flex justify-content-end gap-2">
+        <a href="{% url 'products:product_update_view' product.id %}" class="btn btn-primary">update</a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">delete</button>
+    </div>
+
             <p>{{ product.description }}</p>
         </div>
     </div>

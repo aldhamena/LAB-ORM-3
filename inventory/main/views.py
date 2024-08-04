@@ -13,6 +13,11 @@ from django.contrib import messages
 
 def home(request:HttpRequest):
 
+    if request.user.is_authenticated:
+        print(request.user.email)
+    else:
+        print("User is not logged in")
+
     #get all products
     products = Product.objects.all().order_by("-production_date")[0:3]
     suppliers = Supplier.objects.all().order_by("pk")[0:3]
