@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{product.title}}{% endblock%}
+
+{% block content %}
+
+<div class="container d-flex flex-column gap-2">
+    <h1>{{product.title}}</h1>
+    
+    <div class="d-flex flex-column gap-2">
+        <img class="supplier-logo w-100" src="{{supplier.logo.url}}" />
+        <h1>{{supplier.name}}</h1>
+    </div>
+    <p>{{supplier.description}}</p>
+</div>
+
+
+
+<div class="container">
+    <hr/>
+    <h2>Product provided by : {{supplier.name}}</h2>
+        {% with supplier.product_set.all as products %}
+            {% include 'products/products_list.html' %}
+        {% endwith %}
+</div>
+
+{% endblock %}

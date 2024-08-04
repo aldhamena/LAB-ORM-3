@@ -1,0 +1,42 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<div class="row row-cols-1 row-cols-md-2">
+    
+    <div class="col  pt-3">
+        <h1>Contact Us</h1>
+        <h4>Telephone: <a href="tel:+966545454545">+966 54 5454 545</a></h2>
+        <h4>Email: <a href="mailto:info@yourinventory.com">info@yourinventory.com</a></h2>
+        <h4>Address:</h2>
+        <p>King Salman rd. Riyadh
+           Tuwaiq Academy, B1-1
+           Saudi Arabia
+        </p>
+
+        <h2>Your Message</h2>
+        <form action="{% url 'main:contact' %}" method="post" class="d-flex flex-column gap-2">
+            {% csrf_token %}
+            <input type="text" class="form-control" placeholder="your name" name="name" required minlength="3"/>
+
+            <textarea  class="form-control" placeholder="your message" name="message" ></textarea>
+
+            <input type="email" class="form-control" placeholder="your email" name="email" required minlength="3"/>
+
+
+            <input type="submit" value="send message" class="btn btn-primary"/>
+        </form>
+
+
+    </div>
+
+    <div class="col  pt-3">
+
+        <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7242.148207477835!2d46.727640483143794!3d24.827139294372518!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2efc6d472d42af%3A0x24b3a53de9cbc5c3!2z2KjYp9ix2YMg2KfZgdmG2YrZiCDZhdmI2YQ!5e0!3m2!1sar!2ssa!4v1699862202453!5m2!1sar!2ssa" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+        
+    </div>
+
+</div>
+{% endblock %}

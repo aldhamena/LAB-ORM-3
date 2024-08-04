@@ -1,0 +1,31 @@
+<div class="row mt-2 row-cols-1 row-cols-md-3 g-4">
+
+    {% for product in products %}
+      <div class="col">
+          <div class="d-flex flex-column justify-content-start align-items-start h-100 p-4 shadow gap-2">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <div class="d-flex gap-2">
+                    {% for category in product.categories.all %}
+                    <a href="{% url 'products:all_products_view' category %}"><h6 class="cat p-1 ps-3 pe-3  rounded-pill text-white {{category}}">{{ category }}</h6></a>
+                    {% endfor %}
+                </div>
+
+        
+            </div>
+
+            <img src="{{product.poster.url}}" class="w-100 poster-thumb object-fit-cover rounded-2"/>
+            <a href="{% url 'products:product_detail_view' product.id %}"><h3>{{product.title}}</h3></a>
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <div class="d-flex align-items-center gap-1 ">
+                    <img src="{{product.supplier.logo.url}}" class="rounded-circle overflow-hidden supplier-logo-small " />
+                    <a href="{% url 'suppliers:supplier_page' product.supplier.id %}"><h5 class="m-0 p-0">{{product.supplier}}</h5></a>
+                </div>
+                <h6 class="m-0 p-0">P: {{product.production_date}}</h6>
+            </div>
+
+          </div>
+      </div>
+    {% endfor %}
+  
+  
+  </div>

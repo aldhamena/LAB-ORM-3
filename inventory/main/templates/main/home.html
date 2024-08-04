@@ -1,0 +1,146 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Your Inventory {% endblock %}
+
+{% block content %}
+
+        {% url 'products:all_products_view' 'all' as all_products_url %}
+        {% url 'main:contact' as contact_url %}
+        {% url 'products:add_product_view' as add_product_url %}
+        {% url 'suppliers:add_supplier' as add_supplier_url %}
+        {% url 'suppliers:suppliers' as all_supplier_url %}
+
+<!-- <div class="row row-cols-1 row-cols-md-2  hero-row">
+
+    <div class="row order-2 order-md-1 ">
+        <div class="d-flex flex-column justify-content-center align-items-center h-100">
+            
+        </div>
+    </div>
+</div> -->
+
+<div class="container">
+  <div class="row">
+    <h1 class="text-center">Your Inventory Home</h1>
+  </div>
+</div>
+
+<div class="container">
+<div class="row">
+  
+
+  <div class="card col bg-dark-subtle py-3 mt-4 text-center gap-4" style="width: 18rem;">
+    <div class="card-body">
+      <h3 class="card-title">All Products</h3>
+      
+      <p class="card-text">Do You want to check our Products</p>
+      <a href="{% url 'products:all_products' 'all' as all_products_url %}" class="card-link">Learn more</a>
+    </div>
+  </div>
+
+  <div class="card col bg-dark-subtle py-3 mt-4 text-center gap-4" style="width: 18rem;">
+    <div class="card-body">
+      <h3 class="card-title">Add a Product</h3>
+      
+      <p class="card-text">Here you can add a new product</p>
+      <a href="{% url 'products:all_products' 'all' as all_products_url %}" class="card-link">Learn more</a>
+    </div>
+  </div>
+
+  <div class="card col bg-dark-subtle py-3 mt-4 text-center gap-4" style="width: 18rem;">
+    <div class="card-body">
+      <h3 class="card-title">Update a Product</h3>
+      
+      <p class="card-text">Here you can update a product info</p>
+      <a href="{% url 'products:all_products' 'all' as all_products_url %}" class="card-link">Learn more</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="container">
+  <div class="row">
+    
+  
+    <div class="card col bg-dark-subtle py-3 mt-4 text-center gap-4" style="width: 18rem;">
+      <div class="card-body">
+        <h3 class="card-title">All Suppliers</h3>
+        
+        <p class="card-text">Do You want to check our Suppliers</p>
+        <a href="{% url 'products:all_products' 'all' as all_products_url %}" class="card-link">Learn more</a>
+      </div>
+    </div>
+  
+    <div class="card col bg-dark-subtle py-3 mt-4 text-center gap-4" style="width: 18rem;">
+      <div class="card-body">
+        <h3 class="card-title">Add a Supplier</h3>
+        
+        <p class="card-text">Here you can add a new supplier</p>
+        <a href="{% url 'products:all_products' 'all' as all_products_url %}" class="card-link">Learn more</a>
+      </div>
+    </div>
+  
+    <div class="card col bg-dark-subtle py-3 mt-4 text-center gap-4" style="width: 18rem;">
+      <div class="card-body">
+        <h3 class="card-title">Update a supplier</h3>
+        
+        <p class="card-text">Here you can update a supplier info</p>
+        <a href="{% url 'products:all_products' 'all' as all_products_url %}" class="card-link">Learn more</a>
+      </div>
+    </div>
+  
+  </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    
+  
+    <div class="card col bg-dark-subtle py-3 mt-4 text-center gap-4" style="width: 18rem;">
+      <div class="card-body">
+        <h3 class="card-title">All Categories</h3>
+        
+        <p class="card-text">Do You want to check our Categories</p>
+        <a href="{% url 'products:all_products' 'all' as all_products_url %}" class="card-link">Learn more</a>
+      </div>
+    </div>
+  
+    <div class="card col bg-dark-subtle py-3 mt-4 text-center gap-4" style="width: 18rem;">
+      <div class="card-body">
+        <h3 class="card-title">Add a Category</h3>
+        
+        <p class="card-text">Here You can add a new category</p>
+        <a href="{% url 'products:all_products' 'all' as all_products_url %}" class="card-link">Learn more</a>
+      </div>
+    </div>
+  
+    <div class="card col bg-dark-subtle py-3 mt-4 text-center gap-4" style="width: 18rem;">
+      <div class="card-body">
+        <h3 class="card-title">Update a Category</h3>
+        
+        <p class="card-text">Here You can update a category</p>
+        <a href="{% url 'products:all_products' 'all' as all_products_url %}" class="card-link">Learn more</a>
+      </div>
+    </div>
+  
+  </div>
+  </div>
+
+
+
+<a href="{% url 'products:all_products_view' 'all' %}" class="mt-4">
+  <div class="d-flex align-items-center justify-content-between mt-4">
+    <h2 class="m-0 p-0">Latest Products</h2>
+    <span class="material-symbols-outlined text-fxl">arrow_forward</span>
+  </div>
+</a>
+<div class="container-fluid rounded shadow bg-dark-subtle mt-4 py-3">
+<div class="rounded">
+
+{% include 'products/products_list.html' %}
+
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'main/base.html' %}
+
+
+{% block title %}Product Details{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+  <h1>{{product.title}}</h1>
+</div>
+
+<div class="row">
+
+    <div class="card col rounded-5 py-3 mt-4 bg-dark-subtle">
+        <div class="d-flex flex-column gap-2">
+           
+            <img src="{{ product.poster.url }}" class="w-100 bg-black flex-column rounded-5" />
+            
+            <div class="d-flex flex-column justify-content-between align-items-center">
+              <div class="d-flex align-items-center gap-1">
+                  <img src="{{product.supplier.logo.url}}" class="rounded-circle overflow-hidden supplier-logo-small " />
+                  <a href="{% url 'suppliers:supplier_page' product.supplier.id %}"><h5 class="m-0 p-0">{{product.supplier.name}}</h5></a>
+              </div>
+              <div class="d-flex justify-content-end gap-2 mt-4">
+                <a href="{% url 'products:product_update_view' product.id %}" class="btn btn-light">update</a>
+                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal">delete</button>
+              </div>
+          </div>
+          <div class="d-flex flex-column gap-2 text-center">
+              {% for category in product.categories.all %}
+              <a href="{% url 'products:all_products_view' category.name %}"><h6 class="cat p-1 ps-3 pe-3  rounded-pill text-white {{category}}">{{ category }}</h6></a>
+              {% endfor %}
+          </div>
+            <p>{{ product.description }}</p>
+        </div>
+    </div>
+
+</div>
+
+<hr />
+
+<h2>Comments ({{reviews.count}})</h2>
+
+<div class="d-flex flex-column gap-3">
+    {% for review in reviews %}
+        <div class="d-flex flex-column p-3 shadow">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4>{{review.name}}</h4>
+                <div class="d-flex align-items-center">
+                    <span class="material-symbols-outlined">star</span>
+                    <h5 class="m-0 p-0">{{review.rating}}</h5>
+                </div>
+            </div>
+            
+            <p>{{review.comment}}</p>
+            <p class="text-muted">{{review.created_at}}</p>
+        </div>
+    {% endfor %}
+</div>
+
+
+<h2 class="mt-5">What do you think about this product?</h2>
+<form class="d-flex flex-column gap-2" action="{% url 'products:add_review_view' product.id %}" method="post">
+    {% csrf_token %}
+    <input class="form-control" name="name" required minlength="3" placeholder="name"/>
+    <textarea class="form-control" name="comment" required minlength="3" placeholder="Comment..."></textarea>
+    <select class="form-select" name="rating" required>
+        <option value="">Rating</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+
+    <input type="submit" class="btn btn-dark" value="Submit" />
+</form>
+
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Product</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are You sure you want to delete {{product.title}} ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <a href="{% url 'products:product_delete_view' product.id %}" class="btn btn-danger">delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

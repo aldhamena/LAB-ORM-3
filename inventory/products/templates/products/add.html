@@ -1,0 +1,54 @@
+{% extends 'main/base.html' %}
+
+
+{% block title %}Add New Product{% endblock %}
+
+{% block content %}
+<h1>Add Product</h1>
+
+<div class="row">
+
+    <div class="col-6">
+
+        <form class="d-flex flex-column gap-2" action="{% url 'products:add_product_view' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" placeholder="Title" name="title" class="form-control" required minlength="5" maxlength="512"/>
+            <textarea placeholder="Description" name="description" class="form-control" required></textarea>
+            
+            
+            <select name="supplier" class="form-select" required>
+                <option>Choose Supplier</option>
+                {% for supplier in suppliers %}
+                    <option value="{{ supplier.id }}">{{ supplier.name }}</option>
+                {% endfor %}
+            </select>
+
+            
+            <div>
+                <h5>production date</h5>
+                <input type="date" name="production_date" class="form-control" required/>
+            </div>
+
+            <input type="file" name="poster" class="form-control" required accept="image/*"/>
+
+
+            <h5>Categories</h5>
+            <div class="d-flex align-items-center gap-2">
+                {% for category in categories %}
+                    <input type="checkbox" class="form-check-input" name="categories" id="check-{{category.id}}" value="{{category.id}}" />
+                    <label for="check-{{category.id}}">{{category.name}}</label>
+                {% endfor %}
+            </div>
+            <input type="submit" value="Add Product" class="btn btn-primary mt-4" />
+
+        </form>
+
+
+    </div>
+
+</div>
+
+<hr />
+
+
+{% endblock %}

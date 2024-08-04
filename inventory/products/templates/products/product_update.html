@@ -1,0 +1,59 @@
+{% extends 'main/base.html' %}
+
+
+{% block title %}Create New Product{% endblock %}
+
+{% block content %}
+<h1>Update {{ product.title }}</h1>
+
+<div class="row">
+
+    <div class="col-6">
+
+        <form class="d-flex flex-column gap-2" action="{% url 'products:product_update_view' product.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" placeholder="Title" name="title" class="form-control" value="{{product.title}}"/>
+            <textarea placeholder="Description" name="description" class="form-control">{{product.description}}</textarea>
+            <select name="supplier" class="form-select" required>
+                <option>Choose Supplier</option>
+                {% for supplier in suppliers %}
+                    <option value="{{ supplier.id }}" {% if supplier == product.supplier %} selected {% endif %}>{{ supplier.name }}</option>
+                {% endfor %}
+            </select>
+            <select class="form-select" name="rating">
+                <option >Rating</option>
+                <option value="1" {% if product.rating == 1 %}selected{% endif %}>One</option>
+                <option value="2" {% if product.rating == 2 %}selected{% endif %}>Two</option>
+                <option value="3" {% if product.rating == 3 %}selected{% endif %}>Three</option>
+                <option value="4" {% if product.rating == 4 %}selected{% endif %}>Four</option>
+                <option value="5" {% if product.rating == 5 %}selected{% endif %}>Five</option>
+              </select>
+            <input type="date" name="production_date" class="form-control" value="{{product.production_date.isoformat}}"/>
+
+            <div class="row">
+                <div class="col-3">
+                    <img src="{{product.poster.url}}" class="w-100" />
+                </div>
+                <div class="col">
+                    <input type="file" name="poster" class="form-control"/>
+                </div>
+            </div>
+
+            <h5>Categories</h5>
+            <div class="d-flex align-items-center gap-2">
+                {% for category in categories %}
+                    <input type="checkbox" class="form-check-input" name="categories" id="check-{{category.id}}" value="{{category.id}}" {% if category in product.categories.all %} checked {% endif %}/>
+                    <label for="check-{{category.id}}">{{category.name}}</label>
+                {% endfor %}
+            </div>
+        
+            <input type="submit" value="update Product" class="btn btn-primary" />
+
+        </form>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

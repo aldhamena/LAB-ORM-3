@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}All Suppliers{% endblock %}
+
+{% block content %}
+
+
+    <div class="d-flex flex-column gap-3 p-4 mt-4">
+        <h1>All Suppliers</h1>
+        <div class="row">
+            {% for supplier in suppliers %}
+                <div class="col-4 g-5">
+                    <div class="card rounded-5 overflow-hidden" >
+                        <div class="rounded-5 p-5 logo-container">
+                            <img src="{{ supplier.logo.url }}" class="supplier-img-top w-100" alt="...">
+                        </div>
+                        <div class="card-body">
+                        <h5 class="card-title"> {{ supplier.name }}</h5>
+                        <div class="card-body p-0">
+                            <div class="d-flex justify-content-between p-0 m-0">
+
+                            </div>
+                        </div>
+                        <a href="{% url 'suppliers:supplier_page' supplier.id %}" class="text-decoration-none">
+                            <div class="d-flex justify-content-between align-items-center  mt-4">
+                                <h5>More</h5>
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </div> 
+                        </a>   
+                        
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    
+{% endblock %}
